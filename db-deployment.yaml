@@ -1,19 +1,3 @@
-# Define a 'Persistent Voulume Claim'(PVC) for Mysql Storage, dynamically provisioned by cluster
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim # name of PVC essential for identifying the storage data
-  labels:
-    app: mysql
-    tier: database
-spec:
-  accessModes:
-    - ReadWriteOnce   #This specifies the mode of the claim that we are trying to create.
-  resources:
-    requests:
-      storage: 1Gi    #This will tell kubernetes about the amount of space we are trying to claim.
----
-# Configure 'Deployment' of mysql server
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -62,7 +46,7 @@ spec:
       volumes:
         - name: mysql-persistent-storage # Obtaining 'vloume' from PVC
           persistentVolumeClaim:
-            claimName: mysql-pv-claim
+            claimName: task-pv-claim
 ---
 # Define a 'Service' To Expose mysql to Other Services
 apiVersion: v1
